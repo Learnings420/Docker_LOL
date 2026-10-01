@@ -1,0 +1,14 @@
+{
+  // OPTIONAL. Use only if your repo has NO .devcontainer yet:
+  //   mkdir -p .devcontainer && cp devcontainer.example.json .devcontainer/devcontainer.json
+  // then: Command Palette -> "Codespaces: Rebuild Container".
+  // Effect: port 8006 is always forwarded, and Windows is (re)started every time the Codespace starts.
+  "name": "Windows in Codespace (dockur/windows)",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "hostRequirements": { "cpus": 4, "memory": "16gb" },
+  "forwardPorts": [8006],
+  "portsAttributes": {
+    "8006": { "label": "Windows (browser)", "onAutoForward": "notify" }
+  },
+  "postStartCommand": "nohup bash setup.sh > /tmp/windows-setup.log 2>&1 &"
+}

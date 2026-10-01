@@ -1,0 +1,5 @@
+.env
+windows-storage/
+keep_alive.log*
+keep-alive.pid
+compose.yaml

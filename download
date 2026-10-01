@@ -1,0 +1,147 @@
+# =====================================================================
+#  Windows-in-Codespace settings  (dockur/windows)
+#  Ei file ta edit koro, tarpor:   bash setup.sh
+#  Docs: https://github.com/dockur/windows
+#        https://github.com/dockur/windows/blob/master/docs/environment.md
+#
+#  NIYOM: sob value double quote ("...") er moddhe likho. Value er bhitore " dewa jabe na.
+#  Value change korle abar `bash setup.sh` chalao (compose.yaml nijei notun hoy).
+#  NOTE: Windows prothom bar install howar por VERSION/LANGUAGE/USERNAME/PASSWORD
+#        change korle kono effect porbe na - tokhon `bash setup.sh reset` kore
+#        notun kore install korte hoy.
+# =====================================================================
+
+
+# ---------------------------------------------------------------------
+# 1) WINDOWS VERSION  (kon Windows install hobe)
+# ---------------------------------------------------------------------
+# Windows 11 chai:   WIN_VERSION="11"
+# Windows 10 chai:   WIN_VERSION="10"
+#
+# Shob option (dockur/windows doc onujayi):
+#   11     Windows 11 Pro          (~7.9 GB)
+#   11l    Windows 11 LTSC         (~4.7 GB)  <- halka, kom RAM lage
+#   11e    Windows 11 Enterprise   (~6.6 GB)
+#   10     Windows 10 Pro          (~5.7 GB)
+#   10l    Windows 10 LTSC         (~4.6 GB)
+#   10e    Windows 10 Enterprise   (~5.2 GB)
+#   tiny11 / tiny10 / core11       (khub halka, unofficial modified)
+#   2025 2022 2019 2016 ...        Windows Server
+# (puro list: dockur/windows README -> "How do I select the Windows version?")
+#
+# Purono nam "win11"/"win10" likhle script nijei "11"/"10" kore nei.
+WIN_VERSION="11"
+
+# Windows er bhasha. Example: "English", "Chinese", "French", "Arabic" ...
+WIN_LANGUAGE="English"
+
+# Optional: region/keyboard (khali rakhle LANGUAGE onujayi hoy). Example: "en-US"
+WIN_REGION=""
+WIN_KEYBOARD=""
+
+# Windows login (prothom install er shomoy set hoy). Password ta BODLE NAO!
+# Password e $ # & ! ityadi cholbe, shudhu double-quote (") character ta dite pariba na.
+WIN_USERNAME="Docker"
+WIN_PASSWORD="admin"
+
+
+# ---------------------------------------------------------------------
+# 2) RAM / CPU  (Windows ke koto dibe)
+# ---------------------------------------------------------------------
+# "auto"  = Codespace er total RAM theke 7GB bad dey (VS Code/terminal er jonno)
+#           15GB machine -> 8G ,  8GB machine -> 4G
+# Nijer moto:  "6G"  "8G"  "10G"   (Windows 11 er minimum 4G)
+# Warning: Total RAM er khub kachakachi dile Codespace terminal/port bondho hoye jay!
+# (15GB machine e 8G-9G er beshi dio na. "12G" dile script nijei 9G e kombiye dey.)
+WIN_RAM="auto"
+
+# "auto" = total core - 1 (kom hole 2).   Nijer moto:  "2"  "3"  "4"
+WIN_CPU="auto"
+
+
+# ---------------------------------------------------------------------
+# 3) STORAGE / DOWNLOAD DIRECTORY  (sob kichu kothay save hobe)
+# ---------------------------------------------------------------------
+# Ei folder e thakbe: Windows ISO download, Windows disk image, sob.
+# Codespace e disk 2ta jaygay ache (df -h diye dekho):
+#     /tmp         -> boro (apnar 118GB)   <- ekhane rakhai bhalo
+#     /workspaces  -> choto (apnar 32GB)
+# NOTE: /tmp stop korle muche jete pare, tai install er por Codespace
+#       bar bar stop/delete korben na.
+#
+# Example:
+#   WIN_STORAGE_DIR="/tmp/windows"          (default, notun clean folder)
+#   WIN_STORAGE_DIR="/tmp"                  (age jemon chilo - jodi purono Windows /tmp e thake)
+#   WIN_STORAGE_DIR="/workspaces/windows"   (persistent, kintu disk choto)
+WIN_STORAGE_DIR="/tmp/windows"
+
+# Windows disk er max size. Sparse - jotota use hoy totoi disk khay.
+# Windows 11 er jonno kom kore "64G". Boro korte chaile: "128G"
+WIN_DISK_SIZE="64G"
+
+# Optional: PC <-> Windows file share folder (Windows e "Shared" folder/Z: drive).
+# Example: WIN_SHARED_DIR="/tmp/windows-shared"      (khali = off)
+WIN_SHARED_DIR=""
+
+
+# ---------------------------------------------------------------------
+# 4) DOWNLOAD SETTINGS  (download fail/retry hole eikhane dekho)
+# ---------------------------------------------------------------------
+# Koyta connection diye ISO download hobe. Default 4.
+# "Download fail / retrying" hole kombiye "1" ba "2" kore dekho.
+WIN_CONNECTIONS="4"
+
+# Microsoft theke direct ISO download (Y/N).
+# Ekta method fail korle onnota try koro:  MIDO="N"  ba  ESD="N"
+# (Ekshathe duto N korbe na, tahole kono download method thakbe na)
+WIN_MIDO="Y"
+WIN_ESD="Y"
+
+# Download kora file er checksum check (Y/N).
+WIN_VERIFY="N"
+
+# Install shesh hole ISO muche space bachabe (Y/N).
+WIN_REMOVE="Y"
+
+# --- Nijer ISO use korte chaile (Microsoft download kaj na korle) ---
+# (a) Internet link:   WIN_ISO_URL="https://example.com/win11.iso"
+# (b) Codespace e already ache:  WIN_LOCAL_ISO="/tmp/my-windows.iso"
+# Duto khali thakle normal auto-download hobe.
+WIN_ISO_URL=""
+WIN_LOCAL_ISO=""
+
+
+# ---------------------------------------------------------------------
+# 5) PORTS & EXTRAS
+# ---------------------------------------------------------------------
+# Browser viewer port (Codespaces PORTS tab e eta khuje nao)
+WIN_WEB_PORT="8006"
+# RDP port (shudhu tunnel diye nijer PC theke lagbe)
+WIN_RDP_PORT="3389"
+
+# Codespace idle hoye stop howa kombanor jonno keep-alive (Y/N)
+# (guarantee noy! GitHub Settings -> Codespaces -> idle timeout o barao)
+WIN_KEEPALIVE="Y"
+
+# ---------------------------------------------------------------------
+# 6) NETWORK / DNS  (download e "Failed to resolve hostname" /
+#    "Temporary failure in name resolution" ashle eikhane thik hoy)
+# ---------------------------------------------------------------------
+# Container er DNS server. Space ba comma diye alada koro.
+# Example: "8.8.8.8 1.1.1.1"  (Google + Cloudflare)   |  "" = Docker er default DNS
+# Test korte:  bash setup.sh dns   (kon DNS kaj kore dekhay)
+WIN_DNS="8.8.8.8 1.1.1.1"
+
+# "bridge"  = Docker er default bridge network (dockur er official docker run example er moto,
+#             Codespace e DNS shobcheye nirbhorjogyo)
+# "compose" = compose er nijer alada network
+WIN_NETWORK="bridge"
+
+# Container restart policy.
+# "unless-stopped" = Codespace stop/start holeo Windows container nijei abar chalu hoy
+# (bash setup.sh stop dile chalu hobe na).  Onno option: "no", "always", "on-failure:5"
+WIN_RESTART="unless-stopped"
+
+# RAM safety: WIN_RAM Codespace RAM er theke 6GB er beshi hole script nijei kombiye dey
+# (RAM sesh hole terminal, port, Windows shob band hoye jay). Tomar risk e dite chaile "Y".
+WIN_RAM_FORCE="N"
